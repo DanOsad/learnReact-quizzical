@@ -5,7 +5,7 @@ import {nanoid} from 'nanoid'
 
 function App() {
 
-  // const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [questions, setQuestions] = useState([])
   // const [correctCount, setCorrectCount] = useState(0)
 
@@ -30,7 +30,9 @@ function App() {
   //   }))
   // }
 
-  const selectAnswer = () => console.log("Answered!")
+  const toggleIsPlaying = () => setIsPlaying(prevState => !prevState)
+
+  const selectAnswer = () => console.log("Answered!") //just for testing
 
   const questionsList = questions.map(question => {
       return (
@@ -47,16 +49,17 @@ function App() {
       )
   })
 
-
   return (
-    // {isPlaying && <Home /> }
-    <div className='container'>
-      <div className='quiz--container'>
-      {questions !== [] && questionsList}
-      <button className='quiz--btn'>Check answers</button>
+      <div className='container'>
+        {!isPlaying ? <Home toggleIsPlaying={() => toggleIsPlaying()} /> :
+          <div className='quiz--container'>
+            {questions !== [] && questionsList}
+            <button className='quiz--btn'>Check answers</button>
+          </div>
+        }
       </div>
-    </div>
   )
+
 }
 
 export default App
