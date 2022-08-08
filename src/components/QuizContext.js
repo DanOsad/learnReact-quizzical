@@ -2,11 +2,11 @@ import React, {useState, createContext, useContext} from "react";
 
 export const QuizContext = createContext()
 
-export const useQuizContext = () => useContext(QuizContext)
+// export const useQuizContext = () => useContext(QuizContext)
 
 export const QuizProvider = props => {
      
-    const [questions, setQuestions] = useState([
+    const [questionsArray, setQuestionsArray] = useState([
         {
             category: "Entertainment: Video Games",
             type: "multiple",
@@ -70,7 +70,7 @@ export const QuizProvider = props => {
     ])
 
     return (
-        <QuizContext.Provider value={[questions, setQuestions]}>
+        <QuizContext.Provider value={[questionsArray, setQuestionsArray]}>
             {props.children}
         </QuizContext.Provider>
     )

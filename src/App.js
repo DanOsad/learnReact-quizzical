@@ -1,24 +1,24 @@
 import React, {useState} from 'react'
 import Home from './components/Home'
 import Quiz from './components/Quiz'
-import { QuizProvider } from './components/QuizContext'
+// import { QuizProvider } from './components/QuizContext'
 
 function App() {
 
-    const [isPlaying, setIsPlaying] = useState(false)
+    const [isGameStarted, setIsGameStarted] = useState(false)
 
-    const toggleIsPlaying = () => setIsPlaying(prevState => !prevState)
+    const toggleIsGameStarted = () => setIsGameStarted(prevState => !prevState)
 
     return (
-            <QuizProvider>
+            // <QuizProvider>
                 <div className='container'>
                     {
-                        !isPlaying ? 
-                        <Home toggleIsPlaying={toggleIsPlaying} /> :
+                        !isGameStarted ? 
+                        <Home toggleIsGameStarted={toggleIsGameStarted} /> :
                         <Quiz />
                     }
                 </div>
-            </QuizProvider>
+            // </QuizProvider>
     )
     
 }

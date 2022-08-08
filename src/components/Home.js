@@ -8,7 +8,7 @@ function Home(props) {
             <button 
                 className='home--btn' 
                 type='button'
-                onClick={props.toggleIsPlaying}>
+                onClick={props.toggleIsGameStarted}>
                     Start quiz
             </button>
         </div>

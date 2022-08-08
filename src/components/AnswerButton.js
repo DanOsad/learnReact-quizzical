@@ -6,16 +6,18 @@ function AnswerButton(props) {
     const [isSelected, setIsSelected] = useState(false)
 
     const styles = {
-        backgroundColor: isSelected ? "#D6DBF5" : ""
+        backgroundColor: props.isHeld ? "#D6DBF5" : ""
     }
 
     return (
         <button 
+            id={props.id}
+            value={props.answer}
             type='button' 
             className='question--answer'
-            isSelected={isSelected}
+            // isSelected={isSelected}
             style={styles}
-            onClick={() => setIsSelected(prevState => !prevState)}
+            onClick={() => props.selectAnswer(props.questionId, props.id)}        
         >
             {he.decode(props.answer)}
         </button>
