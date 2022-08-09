@@ -1,26 +1,19 @@
-import React, {useState, useEffect, useContext} from 'react'
-// import Home from './Home'
+import React, {useState, useEffect} from 'react'
 import AnswerButton from './AnswerButton'
 import Question from './Question'
-// import { QuizContext } from './QuizContext'
-// import getQuestions from '../services/getQuestions'
 import { nanoid } from 'nanoid'
 
 function Quiz() {
 
-    // const [isGameStarted, setIsGameStarted] = useState(false)
-    // const [isGameOver, setIsGameOver] = useState(false)
-    const [correctAnswerCount, setCorrectAnswerCount] = useState(0)
-    // const [questionsArray, setQuestionsArray] = useContext(QuizContext)
+    const [isGameOver, setIsGameOver] = useState(false)
     const [quizData, setQuizData] = useState([])
-    
-    // const allQuestionsAnswered = quizData.every(question => question.selectedAnswer !== '')
-    
-    // const startGame = () => {
-        //     setIsGameStarted(prevState => !prevState)
-        // }
+    const [reset, setReset] = useState(false)
 
     useEffect(() => {
+
+        setReset(false)
+        setIsGameOver(false)
+
         fetch("https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple")
                 .then(res => res.json())
                 .then(data => setQuizData(parseArr(data.results)) )
@@ -58,7 +51,7 @@ function Quiz() {
             })
           return newArr.filter(question => question.question.length < 100).slice(0,5)
         }
-    }, [])
+    }, [reset])
 
     const selectAnswer = (questionId, answerId) => {
         setQuizData(prevQuizData => {
@@ -77,19 +70,37 @@ function Quiz() {
         })
     }
     
+    /* GAME OVER LOGIC */
+    let score = 0
+
+    const allQuestionsAnswered = quizData.every(question => question.allAnswers.some(answer => answer.isHeld))
+
+    const toggleIsGameOver = () => {setIsGameOver(prevState => !prevState)}
+
+    if (isGameOver) {
+        quizData.map(question => {
+            return question.allAnswers.forEach(answer => {
+                return answer.isHeld && answer.isCorrect ? score++ : score
+            })
+        })
+    }
+
+    /* QUESTIONS MAP */
     const questionBlocks = quizData.map(question => {
         return (
             <div className='question--container'>
                 <Question key={question.id} questionText={question.question} />
                 <div className='question--answers'>
-                    {question.allAnswers.map(answer => 
+                    {question.allAnswers.map(answer =>
                         <AnswerButton 
                             key={answer.id} 
                             answer={answer.value}
                             id={answer.id}
                             questionId={question.id}
                             isHeld={answer.isHeld}
-                            selectAnswer={selectAnswer}
+                            selectAnswer={!isGameOver && selectAnswer}
+                            correctAnswer={question.correct_answer}
+                            isGameOver={isGameOver}
                         />
                     )}
                 </div>
@@ -98,10 +109,26 @@ function Quiz() {
         )
     })
 
+    /* DISPLAY OUTPUT */
     return (
         <div className='quiz--container'>
             {questionBlocks}
-            <button className='quiz--btn'>Check answers</button>
+            {
+                isGameOver
+                ? 
+                <div className='btn--container'>
+                    <span className='score--text'>You scored {score}/{quizData.length} correct answers</span>
+                    <button className='quiz--btn' onClick={() => setReset(prevState => !prevState)}>
+                    Reset
+                    </button>
+                </div>
+                :
+                <div className='btn--container'>
+                    <button className='quiz--btn' onClick={allQuestionsAnswered && toggleIsGameOver}>
+                    Check Answers
+                    </button>
+                </div>
+            }
         </div>
     )
 }

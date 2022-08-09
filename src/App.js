@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
 import Home from './components/Home'
 import Quiz from './components/Quiz'
-// import { QuizProvider } from './components/QuizContext'
+// import blueBlob from './images/blueBlob.png';
+// import yellowBlob from './images/yellowBlob.png';
 
 function App() {
 
@@ -10,21 +11,15 @@ function App() {
     const toggleIsGameStarted = () => setIsGameStarted(prevState => !prevState)
 
     return (
-            // <QuizProvider>
-                <div className='container'>
-                    {
-                        !isGameStarted ? 
-                        <Home toggleIsGameStarted={toggleIsGameStarted} /> :
-                        <Quiz />
-                    }
-                </div>
-            // </QuizProvider>
+        <div className='container'>
+            {
+                !isGameStarted ? 
+                <Home toggleIsGameStarted={toggleIsGameStarted} /> :
+                <Quiz />
+            }
+        </div>
     )
     
 }
 
 export default App
-
-// <div className='quiz--container'>
-// {/* <button className='quiz--btn'>Check answers</button> */}
-// {/* </div> */}
