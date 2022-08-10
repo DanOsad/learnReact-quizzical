@@ -65,7 +65,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]<!--(https://example.com)-->
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 A simple quiz game. It will provide you with 5 random questions from the https://opentdb.com question database. You can answer all the questions and your score will be tallied. Along with that, you will see which questions you got right and wrong, as highlighted in green or red, respectively. You can then reset the quiz with a new set of questions.
 
